@@ -14,6 +14,7 @@
 <p id="name"></p>
 <div id="controllers" hidden="hidden">
     <label>chargé une playlist via son url de partage</label>
+    <br />
     <input width="500" type="text" id="playlist_url" ><input type="button" onclick="loadPlaylist()" value="charger"/>
     <p style="color: red" id="error"></p>
 </div>
@@ -55,6 +56,8 @@
 
         if (!isPlaylist(url)) {
             document.getElementById('error').innerHTML = 'Not a valid playlist';
+
+            return false;
         }
 
         var playlistId = getPlaylistId(url);
