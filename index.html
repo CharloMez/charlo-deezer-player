@@ -12,65 +12,96 @@
 
 <input type="button" onclick="loginDeezer()" value="Login"/>
 <p id="name"></p>
-<div id="controllers" hidden="hidden">
+
+<div id="playlist" hidden="hidden">
     <label>chargé une playlist via son url de partage</label>
     <br />
-    <input width="500" type="text" id="playlist_url" ><input type="button" onclick="loadPlaylist()" value="charger"/>
-    <p style="color: red" id="error"></p>
+    <input size="100" type="text" id="playlist_url" >
+    <br />
+    <input type="button" onclick="load('playlist', loadPlaylist)" value="charger"/>
+    <input type="hidden" id="playlist_id" value="-1">
 </div>
+
+<div id="song" hidden="hidden">
+    <label>Ajouté une musique dans votre playlist via son url de partage</label>
+    <br />
+    <input size="100" type="text" id="song_url" >
+    <br />
+    <input type="button" onclick="load('track', loadTrack)" value="charger"/>
+    <input type="hidden" id="track_id" value="-1">
+</div>
+
+<p style="color: red" id="error"></p>
+
 <script>
-
-    function isPlaylist(url)
+    function getElementId(url)
     {
-        console.log('search playlist = ' + url.search('playlist'));
-        if (url.search('playlist') !== -1) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function getPlaylistId(url)
-    {
-        var playlistId = -1;
+        var elementId = -1;
 
         url = url.split('?');
         url = url[0].split('/');
 
         if (url.length > 0) {
-            playlistId = url[url.length - 1];
+            elementId = url[url.length - 1];
         }
 
-        if (playlistId !== -1 && !isNaN(parseInt(playlistId))) {
-            console.log('get playlist id = ' + parseInt(playlistId));
-            return parseInt(playlistId);
+        if (elementId !== -1 && !isNaN(parseInt(elementId))) {
+            console.log('get playlist id = ' + parseInt(elementId));
+
+            return parseInt(elementId);
         }
 
         return -1;
     }
 
-    function loadPlaylist()
+    function load(type, callback)
     {
-        var url = document.getElementById('playlist_url').value;
+        console.log('loading ' + type);
+        var url = document.getElementById(type + '_url').value;
         document.getElementById('error').innerHTML = '';
 
-        if (!isPlaylist(url)) {
-            document.getElementById('error').innerHTML = 'Not a valid playlist';
+        if (!isType(type, url)) {
+            document.getElementById('error').innerHTML = 'Not a valid ' + type;
 
             return false;
         }
 
-        var playlistId = getPlaylistId(url);
+        var elementId = getElementId(url);
 
-        if (playlistId === -1) {
-            document.getElementById('error').innerHTML = 'Enable to extract the playlist id';
+        if (elementId === -1) {
+            document.getElementById('error').innerHTML = 'Enable to extract the ' + type + ' id';
 
             return false;
         }
 
-        DZ.player.playPlaylist(parseInt(playlistId));
+        console.log('callback with id ' + elementId);
+        callback(elementId);
 
         return true;
+    }
+
+    function loadPlaylist(id)
+    {
+        console.log('loading playlist');
+        document.getElementById('playlist_id').value = id;
+        DZ.player.playPlaylist(id);
+        document.getElementById('song').removeAttribute('hidden');
+    }
+
+    function loadTrack(id)
+    {
+        console.log('loading track');
+        playlistId = document.getElementById('playlist_id').value;
+        DZ.api('playlist/' + playlistId + '/tracks?songs=' + id, function(response) {
+            if (typeof response.error !== "undefined") {
+                console.log('track ok on playlist ! add to queue');
+                DZ.player.addToQueue(id);
+
+                return true;
+            }
+
+            return false;
+        });
     }
 
     function loginDeezer()
@@ -81,7 +112,7 @@
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
 
-                document.getElementById('controllers').removeAttribute('hidden');
+                document.getElementById('playlist').removeAttribute('hidden');
             } else {
                 document.getElementById('error').innerHTML = 'An error occurred with login !';
             }
@@ -97,6 +128,19 @@
     {
         console.log('player is loaded');
         DZ.Event.subscribe('tracklist_changed', tracklistChanged);
+    }
+
+    function isType(type, id)
+    {
+        console.log('check is type' + type);
+        DZ.api('/' + type + '/' + id, function(response) {
+            if (typeof response.error !== "undefined") {
+                console.log('type ok');
+                return true;
+            }
+
+            return false;
+        });
     }
 
     DZ.init({
