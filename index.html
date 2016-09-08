@@ -57,19 +57,19 @@
     function load(type, callback)
     {
         console.log('loading ' + type);
-        var url = document.getElementById(type + '_url').value;
         document.getElementById('error').innerHTML = '';
 
-        if (!isType(type, url)) {
-            document.getElementById('error').innerHTML = 'Not a valid ' + type;
-
-            return false;
-        }
-
+        var url = document.getElementById(type + '_url').value;
         var elementId = getElementId(url);
 
         if (elementId === -1) {
             document.getElementById('error').innerHTML = 'Enable to extract the ' + type + ' id';
+
+            return false;
+        }
+
+        if (!isType(type, elementId)) {
+            document.getElementById('error').innerHTML = 'Not a valid ' + type;
 
             return false;
         }
@@ -132,10 +132,11 @@
 
     function isType(type, id)
     {
-        console.log('check is type' + type);
+        console.log('check is type ' + type);
         DZ.api('/' + type + '/' + id, function(response) {
-            if (typeof response.error !== "undefined") {
+            if (typeof response.error === "undefined") {
                 console.log('type ok');
+
                 return true;
             }
 
