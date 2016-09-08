@@ -74,7 +74,7 @@
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
 
-                document.getElementById('controllers').style.visibility = "visible";
+                document.getElementById('controllers').removeAttribute('hidden');
             } else {
                 document.getElementById('error').innerHTML = 'An error occurred with login !';
             }
@@ -88,17 +88,11 @@
 
     function playerLoaded()
     {
-        document.getElementById('controllers').style.visibility = "visible";
         console.log('player is loaded');
         DZ.Event.subscribe('tracklist_changed', tracklistChanged);
     }
 
-    function onloadPlayer()
-    {
-        console.log('loading...');
-        DZ.Event.subscribe('player_loaded', playerLoaded);
-    }
-
+    DZ.Event.subscribe('player_loaded', playerLoaded);
     DZ.init({
         appId : '190582',
         channelUrl : 'http://test.mobnweb.com/channel.html',
@@ -107,8 +101,7 @@
             cover : true,
             playlist : true,
             width : 650,
-            height : 300,
-            onload: onloadPlayer
+            height : 300
         }
     });
 </script>
