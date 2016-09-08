@@ -133,7 +133,9 @@
     function isType(type, id)
     {
         console.log('check is type ' + type);
+        console.log('url = ' + '/' + type + '/' + id);
         DZ.api('/' + type + '/' + id, function(response) {
+            console.log(JSON.stringify(response));
             if (typeof response.error === "undefined") {
                 console.log('type ok');
 
