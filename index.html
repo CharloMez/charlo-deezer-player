@@ -71,6 +71,7 @@
         DZ.login(function(response) {
             if (response.authResponse) {
                 DZ.api('/user/me', function(response) {
+                    console.log(json.stringify(response));
                     document.getElementById('name').innerHTML = 'Salut ' . response.name;
                 });
 
