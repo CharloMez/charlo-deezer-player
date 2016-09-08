@@ -68,14 +68,7 @@
             return false;
         }
 
-        if (!isType(type, elementId)) {
-            document.getElementById('error').innerHTML = 'Not a valid ' + type;
-
-            return false;
-        }
-
-        console.log('callback with id ' + elementId);
-        callback(elementId);
+        loadType(type, elementId, callback);
 
         return true;
     }
@@ -130,7 +123,7 @@
         DZ.Event.subscribe('tracklist_changed', tracklistChanged);
     }
 
-    function isType(type, id)
+    function loadType(type, id, callback)
     {
         console.log('check is type ' + type);
         console.log('url = ' + '/' + type + '/' + id);
@@ -138,12 +131,11 @@
             console.log(JSON.stringify(response));
             console.log('typeof = ' + typeof response.error);
             if (typeof response.error === "undefined") {
-                console.log('type ok');
-
-                return true;
+                console.log('callback with id ' + elementId);
+                callback(id);
+            } else {
+                document.getElementById('error').innerHTML = 'Not a valid ' + type;
             }
-
-            return false;
         });
     }
 
