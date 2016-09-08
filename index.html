@@ -91,7 +91,8 @@
             console.log('response = ' + JSON.stringify(response));
             if (typeof response.error === "undefined") {
                 console.log('track ok on playlist ! add to queue');
-                DZ.player.addToQueue(id);
+                DZ.player.addToQueue([id]);
+                DZ.player.playTracks([id]);
 
                 return true;
             }
