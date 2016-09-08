@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn-files.deezer.com/js/min/dz.js"></script>
+</head>
+<body>
+
+<div id="dz-root"></div>
+<div id="player" style="width:100%;" align="center"></div>
+
+<input type="button" onclick="loginDeezer()" value="Login"/>
+<p hidden="hidden" id="name"></p>
+<div id="controllers" hidden="hidden">
+    <input type="text" id="playlist_url" ><input type="button" onclick="loadPlaylist()" value="charger"/>
+    <p style="color: red" id="error"></p>
+</div>
+<script>
+
+    function isPlaylist(url)
+    {
+        if (url.search('playlist') !== -1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function getPlaylistId(url)
+    {
+        var playlistId = -1;
+
+        url = url.split('?');
+        url = url[0].split('/');
+
+        if (url.length > 0) {
+            playlistId = url[url.length - 1];
+        }
+
+        if (playlistId !== -1 && !isNaN(parseInt(playlistId))) {
+            return parseInt(playlistId);
+        }
+
+        return -1;
+    }
+
+    function loadPlaylist()
+    {
+        var url = document.getElementById('playlist_url').value;
+
+        if (!isPlaylist(url)) {
+            document.getElementById('error').innerHTML = 'Not a valid playlist';
+        }
+
+        var playlistId = getPlaylistId(url);
+
+        if (playlistId !== -1) {
+            document.getElementById('error').innerHTML = 'Enable to extract the playlist id';
+
+            return false;
+        }
+
+        DZ.player.playPlaylist(parseInt(playlistId));
+
+        return true;
+    }
+
+    function loginDeezer()
+    {
+        DZ.login(function(response) {
+            if (response.authResponse) {
+                DZ.api('/user/me', function(response) {
+                    document.getElementById('name').innerHTML = 'Salut ' . response.name;
+                });
+
+                document.getElementById('controllers').style.visibility = "visible";
+            } else {
+                document.getElementById('error').innerHTML = 'An error occurred with login !';
+            }
+        }, {perms: 'manage_library,basic_access,email'});
+    }
+
+    function tracklistChanged()
+    {
+        console.log('tracklist has change');
+    }
+
+    function playerLoaded()
+    {
+        console.log('player is loaded');
+        DZ.Event.subscribe('tracklist_changed', tracklistChanged);
+    }
+
+    function onloadPlayer()
+    {
+        console.log('loading...');
+        DZ.Event.subscribe('loaded', playerLoaded);
+    }
+
+    DZ.init({
+        appId : '190582',
+        channelUrl : 'http://test.mobnweb.com/channel.html',
+        player: {
+            container : 'player',
+            cover : true,
+            playlist : true,
+            width : 650,
+            height : 300,
+            onload: onloadPlayer
+        }
+    });
+</script>
+
+</body>
+</html>
