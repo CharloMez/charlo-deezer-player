@@ -71,28 +71,7 @@
         DZ.login(function(response) {
             if (response.authResponse) {
                 DZ.api('/user/me', function(response) {
-                    console.log(JSON.stringify(response));
-                    try {
-                        console.log(response.name);
-                    } catch (e) {
-
-                    }
-                    try {
-                        console.log(response['name']);
-                    } catch (e) {
-
-                    }
-                    try {
-                        console.log(response['firstname']);
-                    } catch (e) {
-
-                    }
-                    try {
-                        console.log(response.firstname);
-                    } catch (e) {
-
-                    }
-                    document.getElementById('name').innerHTML = 'Salut ' . response['name'];
+                    document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
 
                 document.getElementById('controllers').style.visibility = "visible";
