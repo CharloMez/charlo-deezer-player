@@ -20,6 +20,7 @@
 
     function isPlaylist(url)
     {
+        console.log('search playlist = ' + url.search('playlist'));
         if (url.search('playlist') !== -1) {
             return true;
         }
@@ -39,6 +40,7 @@
         }
 
         if (playlistId !== -1 && !isNaN(parseInt(playlistId))) {
+            console.log('get playlist id = ' + parseInt(playlistId));
             return parseInt(playlistId);
         }
 
@@ -48,7 +50,8 @@
     function loadPlaylist()
     {
         var url = document.getElementById('playlist_url').value;
-
+        document.getElementById('error').innerHTML = '';
+        
         if (!isPlaylist(url)) {
             document.getElementById('error').innerHTML = 'Not a valid playlist';
         }
@@ -92,7 +95,6 @@
         DZ.Event.subscribe('tracklist_changed', tracklistChanged);
     }
 
-    DZ.Event.subscribe('player_loaded', playerLoaded);
     DZ.init({
         appId : '190582',
         channelUrl : 'http://test.mobnweb.com/channel.html',
@@ -104,6 +106,7 @@
             height : 300
         }
     });
+    DZ.Event.subscribe('player_loaded', playerLoaded);
 </script>
 
 </body>
