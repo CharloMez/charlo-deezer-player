@@ -32,6 +32,7 @@
 </div>
 
 <p style="color: red" id="error"></p>
+<input type="hidden" id="access_token" value="-1">
 
 <script>
     function getElementId(url)
@@ -83,8 +84,10 @@
 
     function loadTrack(id)
     {
+        var xhr = new XMLHttpRequest();
         console.log('loading track');
         var playlistId = document.getElementById('playlist_id').value;
+        var token = document.getElementById('access_token').value;
 /*        console.log('playlist id to charge ' + playlistId);
         console.log('call url ' + '/playlist/' + playlistId + '/tracks?songs=' + id);
         DZ.api('/playlist/' + playlistId + '/tracks?songs=' + id, function(response) {
@@ -101,7 +104,7 @@
         });*/
         var form = document.createElement('form');
         form.setAttribute('method', 'POST');
-        form.setAttribute('action', 'https://api.deezer.com/playlist/' + playlistId + '/tracks');
+        form.setAttribute('action', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?access_token=' + token);
 
         var champCache = document.createElement('input');
         champCache.setAttribute('type', 'hidden');
@@ -117,6 +120,7 @@
     {
         DZ.login(function(response) {
             if (response.authResponse) {
+                document.getElementById('playlist_id').value = response.authResponse.accessToken;
                 DZ.api('/user/me', function(response) {
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
