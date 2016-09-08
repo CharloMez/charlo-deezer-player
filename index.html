@@ -131,7 +131,7 @@
             console.log(JSON.stringify(response));
             console.log('typeof = ' + typeof response.error);
             if (typeof response.error === "undefined") {
-                console.log('callback with id ' + elementId);
+                console.log('callback with id ' + id);
                 callback(id);
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
