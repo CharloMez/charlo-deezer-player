@@ -84,8 +84,11 @@
     function loadTrack(id)
     {
         console.log('loading track');
-        playlistId = document.getElementById('playlist_id').value;
-        DZ.api('playlist/' + playlistId + '/tracks?songs=' + id, function(response) {
+        var playlistId = document.getElementById('playlist_id').value;
+        console.log('playlist id to charge ' + playlistId);
+        console.log('call url ' + '/playlist/' + playlistId + '/tracks?songs=' + id);
+        DZ.api('/playlist/' + playlistId + '/tracks?songs=' + id, function(response) {
+            console.log('response = ' + JSON.stringify(response));
             if (typeof response.error !== "undefined") {
                 console.log('track ok on playlist ! add to queue');
                 DZ.player.addToQueue(id);
