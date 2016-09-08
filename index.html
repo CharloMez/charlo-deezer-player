@@ -11,7 +11,7 @@
 <div id="player" style="width:100%;" align="center"></div>
 
 <input type="button" onclick="loginDeezer()" value="Login"/>
-<p hidden="hidden" id="name"></p>
+<p id="name"></p>
 <div id="controllers" hidden="hidden">
     <input type="text" id="playlist_url" ><input type="button" onclick="loadPlaylist()" value="charger"/>
     <p style="color: red" id="error"></p>
@@ -51,14 +51,14 @@
     {
         var url = document.getElementById('playlist_url').value;
         document.getElementById('error').innerHTML = '';
-        
+
         if (!isPlaylist(url)) {
             document.getElementById('error').innerHTML = 'Not a valid playlist';
         }
 
         var playlistId = getPlaylistId(url);
 
-        if (playlistId !== -1) {
+        if (playlistId === -1) {
             document.getElementById('error').innerHTML = 'Enable to extract the playlist id';
 
             return false;
