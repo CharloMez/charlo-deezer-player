@@ -72,6 +72,26 @@
             if (response.authResponse) {
                 DZ.api('/user/me', function(response) {
                     console.log(JSON.stringify(response));
+                    try {
+                        console.log(response.name);
+                    } catch (e) {
+
+                    }
+                    try {
+                        console.log(response['name']);
+                    } catch (e) {
+
+                    }
+                    try {
+                        console.log(response['firstname']);
+                    } catch (e) {
+
+                    }
+                    try {
+                        console.log(response.firstname);
+                    } catch (e) {
+
+                    }
                     document.getElementById('name').innerHTML = 'Salut ' . response['name'];
                 });
 
@@ -89,6 +109,7 @@
 
     function playerLoaded()
     {
+        document.getElementById('controllers').style.visibility = "visible";
         console.log('player is loaded');
         DZ.Event.subscribe('tracklist_changed', tracklistChanged);
     }
@@ -96,7 +117,7 @@
     function onloadPlayer()
     {
         console.log('loading...');
-        DZ.Event.subscribe('loaded', playerLoaded);
+        DZ.Event.subscribe('player_loaded', playerLoaded);
     }
 
     DZ.init({
