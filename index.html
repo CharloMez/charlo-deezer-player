@@ -89,7 +89,7 @@
         console.log('call url ' + '/playlist/' + playlistId + '/tracks?songs=' + id);
         DZ.api('/playlist/' + playlistId + '/tracks?songs=' + id, function(response) {
             console.log('response = ' + JSON.stringify(response));
-            if (typeof response.error !== "undefined") {
+            if (typeof response.error === "undefined") {
                 console.log('track ok on playlist ! add to queue');
                 DZ.player.addToQueue(id);
 
