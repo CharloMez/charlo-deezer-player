@@ -123,15 +123,15 @@ var Project = (function() {
         });
     };
 
-    return {
-        this
-/*        init: init,
+    return this;
+/*    return {
+        init: init,
         loginDeezer: loginDeezer,
         load: load,
         loadPlaylist: loadPlaylist,
         loadTrack: loadTrack,
         playerLoaded: playerLoaded,
         playlistId: playlistId,
-        currentIndex: currentIndex*/
-    }
+        currentIndex: currentIndex
+    }*/
 })();
