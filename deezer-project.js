@@ -119,6 +119,7 @@ var Project = (function() {
         loginDeezer: loginDeezer,
         load: load,
         loadPlaylist: loadPlaylist,
-        loadTrack: loadTrack
+        loadTrack: loadTrack,
+        playerLoaded: playerLoaded
     }
 })();
