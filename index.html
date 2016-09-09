@@ -33,6 +33,7 @@
 
 <p style="color: red" id="error"></p>
 <input type="hidden" id="access_token" value="-1">
+<input type="hidden" id="current_index" value="0">
 
 <script>
     function getElementId(url)
@@ -74,27 +75,28 @@
         return true;
     }
 
-    function loadPlaylist(id)
+    function loadPlaylist()
     {
         console.log('loading playlist');
-        document.getElementById('playlist_id').value = id;
-        DZ.player.playPlaylist(id, 2);
+        var id = document.getElementById('playlist_id').value;
+        var index = document.getElementById('current_index').value;
+        DZ.player.playPlaylist(id, index);
         document.getElementById('song').removeAttribute('hidden');
     }
 
-    function loadTrack(id)
+    function loadTrack()
     {
         console.log('loading track');
         var playlistId = document.getElementById('playlist_id').value;
+        var id = document.getElementById('track_id').value;
         var token = document.getElementById('access_token').value;
         var xhr = new XMLHttpRequest();
 
         xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?access_token=' + token);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('songs=' + id + '&access_token=' + token);
-        console.log('current index = ' + DZ.player.getCurrentIndex());
-        console.log('current track = ' + DZ.player.getCurrentTrack());
-        DZ.player.playPlaylist(playlistId, 2);
+        document.getElementById('access_token').value = DZ.player.getCurrentIndex();
+        initPlayer(loadPlaylist);
     }
 
     function loginDeezer()
@@ -114,15 +116,9 @@
         }, {perms: 'manage_library,basic_access,email'});
     }
 
-    function tracklistChanged()
-    {
-        console.log('tracklist has change');
-    }
-
     function playerLoaded()
     {
         console.log('player is loaded');
-        DZ.Event.subscribe('tracklist_changed', tracklistChanged);
     }
 
     function loadType(type, id, callback)
@@ -134,25 +130,31 @@
             console.log('typeof = ' + typeof response.error);
             if (typeof response.error === "undefined") {
                 console.log('callback with id ' + id);
-                callback(id);
+                document.getElementById(type + '_id').value = id;
+                callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
             }
         });
     }
 
-    DZ.init({
-        appId : '190582',
-        channelUrl : 'http://test.mobnweb.com/channel.html',
-        player: {
-            container : 'player',
-            cover : true,
-            playlist : true,
-            width : 650,
-            height : 300
-        }
-    });
-    DZ.Event.subscribe('player_loaded', playerLoaded);
+    function initPlayer(callback)
+    {
+        DZ.init({
+            appId : '190582',
+            channelUrl : 'http://test.mobnweb.com/channel.html',
+            player: {
+                container : 'player',
+                cover : true,
+                playlist : true,
+                width : 650,
+                height : 300
+            }
+        });
+        DZ.Event.subscribe('player_loaded', callback);
+    }
+
+    initPlayer(playerLoaded);
 </script>
 
 </body>
