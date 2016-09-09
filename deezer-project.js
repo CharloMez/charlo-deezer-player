@@ -1,4 +1,5 @@
 var Project = (function() {
+    var self = {};
     var appId = '';
     var channelUrl = '';
     var currentIndex = 0;
@@ -6,7 +7,7 @@ var Project = (function() {
     var trackId = -1;
     var accessToken;
 
-    var init = function(appId, channelUrl, callback) {
+    self.init = function(appId, channelUrl, callback) {
         this.appId = appId;
         this.channelUrl = channelUrl;
 
@@ -43,7 +44,7 @@ var Project = (function() {
         return -1;
     };
 
-    var load = function(type, callback) {
+    self.load = function(type, callback) {
         console.log('load type = ' + type);
         document.getElementById('error').innerHTML = '';
 
@@ -61,7 +62,7 @@ var Project = (function() {
         return true;
     };
 
-    var loadPlaylist = function() {
+    self.loadPlaylist = function() {
         var id = this.playlistId;
         var index = this.currentIndex;
 
@@ -72,7 +73,7 @@ var Project = (function() {
         document.getElementById('song').removeAttribute('hidden');
     };
 
-    var loadTrack = function() {
+    self.loadTrack = function() {
         var xhr = new XMLHttpRequest();
 
         xhr.open('POST', 'https://api.deezer.com/playlist/' + this.playlistId + '/tracks?access_token=' + this.accessToken);
@@ -83,10 +84,10 @@ var Project = (function() {
 
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
-        initPlayer(loadPlaylist);
+        initPlayer(self.loadPlaylist);
     };
 
-    var loginDeezer = function() {
+    self.loginDeezer = function() {
         DZ.login(function(response) {
             if (response.authResponse) {
                 console.log(JSON.stringify(response));
@@ -103,7 +104,7 @@ var Project = (function() {
         }, {perms: 'manage_library,basic_access,email'});
     };
 
-    var playerLoaded = function() {
+    self.playerLoaded = function() {
         console.log('player is loaded');
     };
 
@@ -123,15 +124,13 @@ var Project = (function() {
         });
     };
 
-    return this;
+    return self;
 /*    return {
         init: init,
         loginDeezer: loginDeezer,
         load: load,
         loadPlaylist: loadPlaylist,
         loadTrack: loadTrack,
-        playerLoaded: playerLoaded,
-        playlistId: playlistId,
-        currentIndex: currentIndex
-    }*/
+        playerLoaded: playerLoaded*/
+    }
 })();
