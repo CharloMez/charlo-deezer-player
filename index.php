@@ -90,10 +90,10 @@
         var token = document.getElementById('access_token').value;
         console.log('playlist id to charge ' + playlistId);
         console.log('call url ' + '/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST');
-        $.get('https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST', function(data) {
+/*        $.get('https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST', function(data) {
             JSON.stringify(data);
-        });
-/*        var xhr = new XMLHttpRequest();
+        });*/
+        var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 JSON.stringify(xhr.responseText);
@@ -101,7 +101,7 @@
         };
         xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST');
         xhr.setRequestHeader("Authorization", "Negotiate");
-        xhr.send();*/
+        xhr.send();
 
         /*        DZ.api('https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST', function(response) {
             console.log('response = ' + JSON.stringify(response));
