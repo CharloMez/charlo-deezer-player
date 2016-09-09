@@ -81,7 +81,7 @@
         var id = document.getElementById('playlist_id').value;
         var index = document.getElementById('current_index').value;
         console.log('playlist id = ' + id);
-        DZ.player.playPlaylist(50255221);
+        DZ.player.playPlaylist(parseInt(id), parseInt(index));
         console.log('done');
         document.getElementById('song').removeAttribute('hidden');
     }
