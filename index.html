@@ -5,7 +5,6 @@
     <title>Title</title>
     <script src="http://cdn-files.deezer.com/js/min/dz.js"></script>
     <script src="deezer-project.js"></script>
-    <script src="index.js"></script>
 </head>
 <body>
 
@@ -39,7 +38,7 @@
 
 <script>
 
-    function getElementId(url)
+/*    function getElementId(url)
     {
         var elementId = -1;
 
@@ -56,9 +55,9 @@
         }
 
         return -1;
-    }
+    }*/
 
-    function load(type, callback)
+/*    function load(type, callback)
     {
         document.getElementById('error').innerHTML = '';
 
@@ -74,9 +73,9 @@
         loadType(type, elementId, callback);
 
         return true;
-    }
+    }*/
 
-    function loadPlaylist()
+/*    function loadPlaylist()
     {
         var id = document.getElementById('playlist_id').value;
         var index = document.getElementById('current_index').value;
@@ -84,9 +83,9 @@
         DZ.player.playPlaylist(parseInt(id), parseInt(index));
 
         document.getElementById('song').removeAttribute('hidden');
-    }
+    }*/
 
-    function loadTrack()
+/*    function loadTrack()
     {
         var playlistId = document.getElementById('playlist_id').value;
         var id = document.getElementById('track_id').value;
@@ -102,9 +101,9 @@
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
         initPlayer(loadPlaylist);
-    }
+    }*/
 
-    function loginDeezer()
+/*    function loginDeezer()
     {
         DZ.login(function(response) {
             if (response.authResponse) {
@@ -119,9 +118,9 @@
                 document.getElementById('error').innerHTML = 'An error occurred with login !';
             }
         }, {perms: 'manage_library,basic_access,email'});
-    }
+    }*/
 
-    function playerLoaded()
+/*    function playerLoaded()
     {
         console.log('player is loaded');
     }
@@ -136,7 +135,7 @@
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
             }
         });
-    }
+    }*/
 
 /*
     function initPlayer(callback)

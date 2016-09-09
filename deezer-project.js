@@ -1,9 +1,10 @@
 var Project = (function() {
     var appId = '';
     var channelUrl = '';
-    var index = 0;
+    var currentIndex = 0;
     var playlistId = -1;
     var trackId = -1;
+    var accessToken;
 
     var init = function(appId, channelUrl, callback) {
         this.appId = appId;
@@ -60,8 +61,8 @@ var Project = (function() {
     };
 
     var loadPlaylist = function() {
-        var id = document.getElementById('playlist_id').value;
-        var index = document.getElementById('current_index').value;
+        var id = this.playlistId;
+        var index = this.currentIndex;
 
         DZ.player.playPlaylist(parseInt(id), parseInt(index));
 
@@ -69,16 +70,13 @@ var Project = (function() {
     };
 
     var loadTrack = function() {
-        var playlistId = document.getElementById('playlist_id').value;
-        var id = document.getElementById('track_id').value;
-        var token = document.getElementById('access_token').value;
         var xhr = new XMLHttpRequest();
 
-        xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?access_token=' + token);
+        xhr.open('POST', 'https://api.deezer.com/playlist/' + this.playlistId + '/tracks?access_token=' + this.accessToken);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send('songs=' + id + '&access_token=' + token);
+        xhr.send('songs=' + this.trackId + '&access_token=' + this.accessToken);
 
-        document.getElementById('access_token').value = DZ.player.getCurrentIndex();
+        this.currentIndex = DZ.player.getCurrentIndex();
 
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
@@ -89,7 +87,7 @@ var Project = (function() {
         DZ.login(function(response) {
             if (response.authResponse) {
                 console.log(JSON.stringify(response));
-                document.getElementById('access_token').value = response.authResponse.accessToken;
+                this.accessToken = response.authResponse.accessToken;
                 DZ.api('/user/me', function(response) {
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
@@ -108,7 +106,7 @@ var Project = (function() {
     var loadType = function(type, id, callback) {
         DZ.api('/' + type + '/' + id, function(response) {
             if (typeof response.error === "undefined") {
-                document.getElementById(type + '_id').value = id;
+                this[type + 'Id'] = id;
                 callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
