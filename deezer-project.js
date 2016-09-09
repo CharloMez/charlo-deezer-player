@@ -124,13 +124,14 @@ var Project = (function() {
     };
 
     return {
-        init: init,
+        this
+/*        init: init,
         loginDeezer: loginDeezer,
         load: load,
         loadPlaylist: loadPlaylist,
         loadTrack: loadTrack,
         playerLoaded: playerLoaded,
         playlistId: playlistId,
-        currentIndex: currentIndex
+        currentIndex: currentIndex*/
     }
 })();
