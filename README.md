@@ -27,4 +27,4 @@ https://addons.mozilla.org/fr/firefox/addon/cors-everywhere/
 
 * L'interface n'est pas vraiment travaillé car je me suis dit que ce n'était pas l'objet du test
 * Par manque de temps je n'ai pas pu rendre l'ajout de la chanson à la playlist invisible pour l'utilisateur,
-j'ai donc tous simplement rechargé le player avec la playlist
+j'ai donc tous simplement rechargé le player avec la playlist et le bon index
