@@ -44,6 +44,7 @@ var Project = (function() {
     };
 
     var load = function(type, callback) {
+        console.log('load type = ' + type);
         document.getElementById('error').innerHTML = '';
 
         var url = document.getElementById(type + '_url').value;
@@ -88,6 +89,7 @@ var Project = (function() {
             if (response.authResponse) {
                 console.log(JSON.stringify(response));
                 this.accessToken = response.authResponse.accessToken;
+                console.log('token = ' + this.accessToken);
                 DZ.api('/user/me', function(response) {
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
@@ -104,9 +106,13 @@ var Project = (function() {
     };
 
     var loadType = function(type, id, callback) {
+        console.log('load type = ' + type);
+        console.log('load type id = ' + id);
         DZ.api('/' + type + '/' + id, function(response) {
             if (typeof response.error === "undefined") {
                 this[type + 'Id'] = id;
+                console.log('store id type = ' + type + 'Id');
+                console.log('store id = ' + this[type + 'Id']);
                 callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
