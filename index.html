@@ -12,7 +12,7 @@
 <div id="dz-root"></div>
 <div id="player" style="width:100%;" align="center"></div>
 
-<input type="button" id="login" value="Login"/>
+<input type="button" onclick="Project.loginDeezer()" value="Login"/>
 <p id="name"></p>
 
 <div id="playlist" hidden="hidden">
@@ -20,7 +20,7 @@
     <br />
     <input size="100" type="text" id="playlist_url" >
     <br />
-    <input type="button" is="playlist_button" value="charger"/>
+    <input type="button" id="playlist_button" onclick="Project.load('playlist', Project.loadPlaylist)" value="charger"/>
     <input type="hidden" id="playlist_id" value="-1">
 </div>
 
