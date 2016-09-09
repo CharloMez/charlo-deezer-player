@@ -129,6 +129,8 @@ var Project = (function() {
         load: load,
         loadPlaylist: loadPlaylist,
         loadTrack: loadTrack,
-        playerLoaded: playerLoaded
+        playerLoaded: playerLoaded,
+        playlistId: playlistId,
+        currentIndex: currentIndex
     }
 })();
