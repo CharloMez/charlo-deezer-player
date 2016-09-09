@@ -20,7 +20,6 @@
     <input size="100" type="text" id="playlist_url" >
     <br />
     <input type="button" onclick="Project.load('playlist', Project.loadPlaylist)" value="charger"/>
-    <input type="hidden" id="playlist_id" value="-1">
 </div>
 
 <div id="song" hidden="hidden">
@@ -29,135 +28,12 @@
     <input size="100" type="text" id="track_url" >
     <br />
     <input type="button" onclick="Project.load('track', Project.loadTrack)" value="charger"/>
-    <input type="hidden" id="track_id" value="-1">
 </div>
 
 <p style="color: red" id="error"></p>
-<input type="hidden" id="access_token" value="-1">
-<input type="hidden" id="current_index" value="0">
 
 <script>
-
-/*    function getElementId(url)
-    {
-        var elementId = -1;
-
-        url = url.split('?');
-        url = url[0].split('/');
-
-        if (url.length > 0) {
-            elementId = url[url.length - 1];
-        }
-
-        if (elementId !== -1 && !isNaN(parseInt(elementId))) {
-
-            return parseInt(elementId);
-        }
-
-        return -1;
-    }*/
-
-/*    function load(type, callback)
-    {
-        document.getElementById('error').innerHTML = '';
-
-        var url = document.getElementById(type + '_url').value;
-        var elementId = getElementId(url);
-
-        if (elementId === -1) {
-            document.getElementById('error').innerHTML = 'Enable to extract the ' + type + ' id';
-
-            return false;
-        }
-
-        loadType(type, elementId, callback);
-
-        return true;
-    }*/
-
-/*    function loadPlaylist()
-    {
-        var id = document.getElementById('playlist_id').value;
-        var index = document.getElementById('current_index').value;
-
-        DZ.player.playPlaylist(parseInt(id), parseInt(index));
-
-        document.getElementById('song').removeAttribute('hidden');
-    }*/
-
-/*    function loadTrack()
-    {
-        var playlistId = document.getElementById('playlist_id').value;
-        var id = document.getElementById('track_id').value;
-        var token = document.getElementById('access_token').value;
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?access_token=' + token);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send('songs=' + id + '&access_token=' + token);
-
-        document.getElementById('access_token').value = DZ.player.getCurrentIndex();
-
-        var player = document.getElementById('dzplayer');
-        player.parentNode.removeChild(player);
-        initPlayer(loadPlaylist);
-    }*/
-
-/*    function loginDeezer()
-    {
-        DZ.login(function(response) {
-            if (response.authResponse) {
-                console.log(JSON.stringify(response));
-                document.getElementById('access_token').value = response.authResponse.accessToken;
-                DZ.api('/user/me', function(response) {
-                    document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
-                });
-
-                document.getElementById('playlist').removeAttribute('hidden');
-            } else {
-                document.getElementById('error').innerHTML = 'An error occurred with login !';
-            }
-        }, {perms: 'manage_library,basic_access,email'});
-    }*/
-
-/*    function playerLoaded()
-    {
-        console.log('player is loaded');
-    }
-
-    function loadType(type, id, callback)
-    {
-        DZ.api('/' + type + '/' + id, function(response) {
-            if (typeof response.error === "undefined") {
-                document.getElementById(type + '_id').value = id;
-                callback();
-            } else {
-                document.getElementById('error').innerHTML = 'Not a valid ' + type;
-            }
-        });
-    }*/
-
-/*
-    function initPlayer(callback)
-    {
-        DZ.init({
-            appId : '190582',
-            channelUrl : 'http://test.mobnweb.com/channel.html',
-            player: {
-                container : 'player',
-                cover : true,
-                playlist : true,
-                width : 650,
-                height : 300
-            }
-        });
-        DZ.Event.subscribe('player_loaded', callback);
-    }
-*/
-
     Project.init('190582', 'http://test.mobnweb.com/channel.html', Project.playerLoaded);
-
-
 </script>
 
 </body>

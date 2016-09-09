@@ -8,6 +8,13 @@ var Project = (function() {
         accessToken: ''
     };
 
+    /**
+     * Initialize deezer player
+     *
+     * @param appId
+     * @param channelUrl
+     * @param callback
+     */
     self.init = function(appId, channelUrl, callback) {
         self.appId = appId;
         self.channelUrl = channelUrl;
@@ -27,6 +34,13 @@ var Project = (function() {
         DZ.Event.subscribe('player_loaded', callback);
     };
 
+    /**
+     * Extract an element id from deezer share url
+     *
+     * @param url
+     *
+     * @returns {*}
+     */
     var getElementId = function(url) {
         var elementId = -1;
 
@@ -45,8 +59,15 @@ var Project = (function() {
         return -1;
     };
 
+    /**
+     * extract, check type, and load an element
+     *
+     * @param type
+     * @param callback
+     *
+     * @returns {boolean}
+     */
     self.load = function(type, callback) {
-        console.log('load type = ' + type);
         document.getElementById('error').innerHTML = '';
 
         var url = document.getElementById(type + '_url').value;
@@ -63,14 +84,20 @@ var Project = (function() {
         return true;
     };
 
+    /**
+     * Load a playlist to the player
+     * and display the interface song part
+     */
     self.loadPlaylist = function() {
-        console.log('final playlist id = ' + self.playlistId);
-        console.log('final index = ' + self.currentIndex);
         DZ.player.playPlaylist(parseInt(self.playlistId), parseInt(self.currentIndex));
 
         document.getElementById('song').removeAttribute('hidden');
     };
 
+    /**
+     * Load a new track on the current playlist
+     * and reload the player
+     */
     self.loadTrack = function() {
         var xhr = new XMLHttpRequest();
 
@@ -85,12 +112,14 @@ var Project = (function() {
         self.init(self.appId, self.channelUrl, self.loadPlaylist);
     };
 
+    /**
+     * Log the user on deezer
+     * and ask for autorizations
+     */
     self.loginDeezer = function() {
         DZ.login(function(response) {
             if (response.authResponse) {
-                console.log(JSON.stringify(response));
                 self.accessToken = response.authResponse.accessToken;
-                console.log('token = ' + self.accessToken);
                 DZ.api('/user/me', function(response) {
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
@@ -102,19 +131,25 @@ var Project = (function() {
         }, {perms: 'manage_library,basic_access,email'});
     };
 
+    /**
+     * Loaded player event
+     */
     self.playerLoaded = function() {
         console.log('player is loaded');
     };
 
+    /**
+     * check if the current id correspond to the require type
+     * And then call the right function to load it
+     *
+     * @param type
+     * @param id
+     * @param callback
+     */
     var loadType = function(type, id, callback) {
-        console.log('load type = ' + type);
-        console.log('load type id = ' + id);
         DZ.api('/' + type + '/' + id, function(response) {
             if (typeof response.error === "undefined") {
                 self[type + 'Id'] = id;
-                console.log('store id type = ' + type + 'Id');
-                console.log('store id [] = ' + self[type + 'Id']);
-                console.log('test . = ' + self.playlistId);
                 callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
@@ -123,12 +158,4 @@ var Project = (function() {
     };
 
     return self;
-/*    return {
-        init: init,
-        loginDeezer: loginDeezer,
-        load: load,
-        loadPlaylist: loadPlaylist,
-        loadTrack: loadTrack,
-        playerLoaded: playerLoaded
-    }*/
 })();
