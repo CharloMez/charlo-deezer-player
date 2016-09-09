@@ -98,7 +98,8 @@
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('songs=' + id + '&access_token=' + token);
         document.getElementById('access_token').value = DZ.player.getCurrentIndex();
-        document.getElementById('player').removeChild();
+        var player = document.getElementById('dzplayer');
+        player.parentNode.removeChild(player);
         initPlayer(loadPlaylist);
     }
 
