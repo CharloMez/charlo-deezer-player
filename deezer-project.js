@@ -1,9 +1,12 @@
 var Project = (function() {
-    var self = {};
+    var self = {
+        currentIndex: 0,
+        playlistId: -1
+    };
     var appId = '';
     var channelUrl = '';
-    var currentIndex = 0;
-    var playlistId = -1;
+//    var currentIndex = 0;
+//    var playlistId = -1;
     var trackId = -1;
     var accessToken;
 
@@ -63,8 +66,8 @@ var Project = (function() {
     };
 
     self.loadPlaylist = function() {
-        var id = this.playlistId;
-        var index = this.currentIndex;
+        var id = self.playlistId;
+        var index = self.currentIndex;
 
         console.log('final playlist id = ' + id);
         console.log('final index = ' + index);
@@ -113,7 +116,7 @@ var Project = (function() {
         console.log('load type id = ' + id);
         DZ.api('/' + type + '/' + id, function(response) {
             if (typeof response.error === "undefined") {
-                this[type + 'Id'] = id;
+                self[type + 'Id'] = id;
                 console.log('store id type = ' + type + 'Id');
                 console.log('store id [] = ' + this[type + 'Id']);
                 console.log('test . = ' + this.playlistId);
