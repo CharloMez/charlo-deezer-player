@@ -10,8 +10,8 @@ var Project = (function() {
         this.channelUrl = channelUrl;
 
         DZ.init({
-            appId : '190582',
-            channelUrl : 'http://test.mobnweb.com/channel.html',
+            appId : this.appId,
+            channelUrl : this.channelUrl,
             player: {
                 container : 'player',
                 cover : true,

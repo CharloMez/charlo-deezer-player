@@ -19,7 +19,7 @@
     <br />
     <input size="100" type="text" id="playlist_url" >
     <br />
-    <input type="button" onclick="Project.load('playlist', Project.loadPlaylist)" value="charger"/>
+    <input type="button" is="playlist_button" onclick="Project.load('playlist', Project.loadPlaylist)" value="charger"/>
     <input type="hidden" id="playlist_id" value="-1">
 </div>
 
@@ -137,6 +137,7 @@
         });
     }
 
+/*
     function initPlayer(callback)
     {
         DZ.init({
@@ -152,6 +153,7 @@
         });
         DZ.Event.subscribe('player_loaded', callback);
     }
+*/
 
     Project.init('190582', 'http://test.mobnweb.com/channel.html', playerLoaded);
 
