@@ -99,9 +99,9 @@
                 JSON.stringify(xhr.responseText);
             }
         };
-        xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST');
-        xhr.setRequestHeader("Authorization", "Negotiate");
-        xhr.send();
+        xhr.open('POST', 'https://api.deezer.com/playlist/' + playlistId + '/tracks?access_token=' + token);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send('songs=' + id + '&access_token=' + token);
 
         /*        DZ.api('https://api.deezer.com/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST', function(response) {
             console.log('response = ' + JSON.stringify(response));
