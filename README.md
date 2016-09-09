@@ -17,6 +17,11 @@ Le tout via les url de partage deezer !
 Ayant utilisé XmlHttpRequest afin d'effectuer la requête POST pour ajouter une chanson à votre playlist,
 pour que cela fonctionne il est requis d'installer une extension sur votre navigateur permettant de by passer les problèmes de cross site domain
 
+chrome:  
+https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi
+
+firefox:  
+https://addons.mozilla.org/fr/firefox/addon/cors-everywhere/
 
 ## Notes
 
