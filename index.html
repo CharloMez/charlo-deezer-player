@@ -80,7 +80,7 @@
         console.log('loading playlist');
         var id = document.getElementById('playlist_id').value;
         var index = document.getElementById('current_index').value;
-        DZ.player.playPlaylist(id, index);
+        DZ.player.playPlaylist(id, parseInt(index));
         document.getElementById('song').removeAttribute('hidden');
     }
 
@@ -96,6 +96,7 @@
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('songs=' + id + '&access_token=' + token);
         document.getElementById('access_token').value = DZ.player.getCurrentIndex();
+        document.getElementsByName('player').removeChild();
         initPlayer(loadPlaylist);
     }
 
