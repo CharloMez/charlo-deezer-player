@@ -82,7 +82,7 @@ var Project = (function() {
 
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
-        initPlayer(self.loadPlaylist);
+        self.initPlayer(self.loadPlaylist);
     };
 
     self.loginDeezer = function() {
