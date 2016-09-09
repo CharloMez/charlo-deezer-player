@@ -65,6 +65,8 @@ var Project = (function() {
         var id = this.playlistId;
         var index = this.currentIndex;
 
+        console.log('final playlist id = ' + id);
+        console.log('final index = ' + index);
         DZ.player.playPlaylist(parseInt(id), parseInt(index));
 
         document.getElementById('song').removeAttribute('hidden');
@@ -112,7 +114,8 @@ var Project = (function() {
             if (typeof response.error === "undefined") {
                 this[type + 'Id'] = id;
                 console.log('store id type = ' + type + 'Id');
-                console.log('store id = ' + this[type + 'Id']);
+                console.log('store id [] = ' + this[type + 'Id']);
+                console.log('test . = ' + this.playlistId);
                 callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
