@@ -12,12 +12,7 @@
 
 <input type="button" onclick="loginDeezer()" value="Login"/>
 <p id="name"></p>
-<cffunction name="optionsMethod" access="remote" output="false" returntype="any" httpmethod="OPTIONS" description="Method to respond to AngularJS trial call">
-    <cfheader name="Access-Control-Allow-Headers" value="Content-Type,x-requested-with,Authorization,Access-Control-Allow-Origin">
-        <cfheader name="Access-Control-Allow-Methods" value="GET,OPTIONS">
-            <cfheader name="Access-Control-Allow-Origin" value="*">
-                <cfheader name="Access-Control-Max-Age" value="360">
-</cffunction>
+
 <div id="playlist" hidden="hidden">
     <label>chargé une playlist via son url de partage</label>
     <br />
@@ -95,6 +90,7 @@
         console.log('playlist id to charge ' + playlistId);
         console.log('call url ' + '/playlist/' + playlistId + '/tracks?songs=' + id + '&access_token=' + token + 'request_method=POST');
         var xhr = new XMLHttpRequest();
+        xhr.setRequestHeader("Authorization", "Negotiate");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 JSON.stringify(xhr.responseText);
