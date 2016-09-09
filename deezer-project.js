@@ -1,45 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="http://cdn-files.deezer.com/js/min/dz.js"></script>
-    <script src="deezer-project.js"></script>
-</head>
-<body>
+var Project = (function() {
+    var appId = '';
+    var channelUrl = '';
+    var index = 0;
+    var playlistId = -1;
+    var trackId = -1;
 
-<div id="dz-root"></div>
-<div id="player" style="width:100%;" align="center"></div>
+    var init = function(appId, channelUrl, callback) {
+        this.appId = appId;
+        this.channelUrl = channelUrl;
 
-<input type="button" onclick="Project.loginDeezer()" value="Login"/>
-<p id="name"></p>
+        DZ.init({
+            appId : '190582',
+            channelUrl : 'http://test.mobnweb.com/channel.html',
+            player: {
+                container : 'player',
+                cover : true,
+                playlist : true,
+                width : 650,
+                height : 300
+            }
+        });
 
-<div id="playlist" hidden="hidden">
-    <label>chargé une playlist via son url de partage</label>
-    <br />
-    <input size="100" type="text" id="playlist_url" >
-    <br />
-    <input type="button" onclick="Project.load('playlist', Project.loadPlaylist)" value="charger"/>
-    <input type="hidden" id="playlist_id" value="-1">
-</div>
+        DZ.Event.subscribe('player_loaded', callback);
+    };
 
-<div id="song" hidden="hidden">
-    <label>Ajouté une musique dans votre playlist via son url de partage</label>
-    <br />
-    <input size="100" type="text" id="track_url" >
-    <br />
-    <input type="button" onclick="Project.load('track', Project.loadTrack)" value="charger"/>
-    <input type="hidden" id="track_id" value="-1">
-</div>
-
-<p style="color: red" id="error"></p>
-<input type="hidden" id="access_token" value="-1">
-<input type="hidden" id="current_index" value="0">
-
-<script>
-
-    function getElementId(url)
-    {
+    var getElementId = function(url) {
         var elementId = -1;
 
         url = url.split('?');
@@ -55,10 +40,9 @@
         }
 
         return -1;
-    }
+    };
 
-    function load(type, callback)
-    {
+    var load = function(type, callback) {
         document.getElementById('error').innerHTML = '';
 
         var url = document.getElementById(type + '_url').value;
@@ -73,20 +57,18 @@
         loadType(type, elementId, callback);
 
         return true;
-    }
+    };
 
-    function loadPlaylist()
-    {
+    var loadPlaylist = function() {
         var id = document.getElementById('playlist_id').value;
         var index = document.getElementById('current_index').value;
 
         DZ.player.playPlaylist(parseInt(id), parseInt(index));
 
         document.getElementById('song').removeAttribute('hidden');
-    }
+    };
 
-    function loadTrack()
-    {
+    var loadTrack = function() {
         var playlistId = document.getElementById('playlist_id').value;
         var id = document.getElementById('track_id').value;
         var token = document.getElementById('access_token').value;
@@ -101,10 +83,9 @@
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
         initPlayer(loadPlaylist);
-    }
+    };
 
-    function loginDeezer()
-    {
+    var loginDeezer = function() {
         DZ.login(function(response) {
             if (response.authResponse) {
                 console.log(JSON.stringify(response));
@@ -118,15 +99,13 @@
                 document.getElementById('error').innerHTML = 'An error occurred with login !';
             }
         }, {perms: 'manage_library,basic_access,email'});
-    }
+    };
 
-    function playerLoaded()
-    {
+    var playerLoaded = function() {
         console.log('player is loaded');
-    }
+    };
 
-    function loadType(type, id, callback)
-    {
+    var loadType = function(type, id, callback) {
         DZ.api('/' + type + '/' + id, function(response) {
             if (typeof response.error === "undefined") {
                 document.getElementById(type + '_id').value = id;
@@ -135,28 +114,13 @@
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
             }
         });
+    };
+
+    return {
+        init: init,
+        loginDeezer: loginDeezer,
+        load: load,
+        loadPlaylist: loadPlaylist,
+        loadTrack: loadTrack
     }
-
-    function initPlayer(callback)
-    {
-        DZ.init({
-            appId : '190582',
-            channelUrl : 'http://test.mobnweb.com/channel.html',
-            player: {
-                container : 'player',
-                cover : true,
-                playlist : true,
-                width : 650,
-                height : 300
-            }
-        });
-        DZ.Event.subscribe('player_loaded', callback);
-    }
-
-    Project.init('190582', 'http://test.mobnweb.com/channel.html', playerLoaded);
-
-
-</script>
-
-</body>
-</html>
+})();
