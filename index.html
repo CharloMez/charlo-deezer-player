@@ -94,6 +94,7 @@
         xhr.send('songs=' + id + '&access_token=' + token);
         console.log('current index = ' + DZ.player.getCurrentIndex());
         console.log('current track = ' + DZ.player.getCurrentTrack());
+        DZ.player.playPlaylist(playlistId, 2);
     }
 
     function loginDeezer()
