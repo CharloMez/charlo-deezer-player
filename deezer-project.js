@@ -1,22 +1,20 @@
 var Project = (function() {
     var self = {
         currentIndex: 0,
-        playlistId: -1
+        playlistId: -1,
+        appId: '',
+        channelUrl: '',
+        trackId: -1,
+        accessToken: ''
     };
-    var appId = '';
-    var channelUrl = '';
-//    var currentIndex = 0;
-//    var playlistId = -1;
-    var trackId = -1;
-    var accessToken;
 
     self.init = function(appId, channelUrl, callback) {
-        this.appId = appId;
-        this.channelUrl = channelUrl;
+        self.appId = appId;
+        self.channelUrl = channelUrl;
 
         DZ.init({
-            appId : this.appId,
-            channelUrl : this.channelUrl,
+            appId : self.appId,
+            channelUrl : self.channelUrl,
             player: {
                 container : 'player',
                 cover : true,
@@ -66,12 +64,9 @@ var Project = (function() {
     };
 
     self.loadPlaylist = function() {
-        var id = self.playlistId;
-        var index = self.currentIndex;
-
-        console.log('final playlist id = ' + id);
-        console.log('final index = ' + index);
-        DZ.player.playPlaylist(parseInt(id), parseInt(index));
+        console.log('final playlist id = ' + self.playlistId);
+        console.log('final index = ' + self.currentIndex);
+        DZ.player.playPlaylist(parseInt(self.playlistId), parseInt(self.currentIndex));
 
         document.getElementById('song').removeAttribute('hidden');
     };
@@ -79,11 +74,11 @@ var Project = (function() {
     self.loadTrack = function() {
         var xhr = new XMLHttpRequest();
 
-        xhr.open('POST', 'https://api.deezer.com/playlist/' + this.playlistId + '/tracks?access_token=' + this.accessToken);
+        xhr.open('POST', 'https://api.deezer.com/playlist/' + self.playlistId + '/tracks?access_token=' + self.accessToken);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send('songs=' + this.trackId + '&access_token=' + this.accessToken);
+        xhr.send('songs=' + self.trackId + '&access_token=' + self.accessToken);
 
-        this.currentIndex = DZ.player.getCurrentIndex();
+        self.currentIndex = DZ.player.getCurrentIndex();
 
         var player = document.getElementById('dzplayer');
         player.parentNode.removeChild(player);
@@ -94,8 +89,8 @@ var Project = (function() {
         DZ.login(function(response) {
             if (response.authResponse) {
                 console.log(JSON.stringify(response));
-                this.accessToken = response.authResponse.accessToken;
-                console.log('token = ' + this.accessToken);
+                self.accessToken = response.authResponse.accessToken;
+                console.log('token = ' + self.accessToken);
                 DZ.api('/user/me', function(response) {
                     document.getElementById('name').innerHTML = 'Salut ' + response.firstname;
                 });
@@ -118,8 +113,8 @@ var Project = (function() {
             if (typeof response.error === "undefined") {
                 self[type + 'Id'] = id;
                 console.log('store id type = ' + type + 'Id');
-                console.log('store id [] = ' + this[type + 'Id']);
-                console.log('test . = ' + this.playlistId);
+                console.log('store id [] = ' + self[type + 'Id']);
+                console.log('test . = ' + self.playlistId);
                 callback();
             } else {
                 document.getElementById('error').innerHTML = 'Not a valid ' + type;
