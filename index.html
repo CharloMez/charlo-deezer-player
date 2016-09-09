@@ -80,7 +80,7 @@
         console.log('loading playlist');
         var id = document.getElementById('playlist_id').value;
         var index = document.getElementById('current_index').value;
-        DZ.player.playPlaylist(id, parseInt(index));
+        DZ.player.playPlaylist(id);
         document.getElementById('song').removeAttribute('hidden');
     }
 
